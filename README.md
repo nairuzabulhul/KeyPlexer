@@ -2,7 +2,7 @@
 
 ![Log](https://s23.postimg.org/urv7yd5a3/key.png)
 
-__Disclaimer__: For Education Purposes Only
+__Disclaimer__: For Educational Purposes Only
 
 
 ### Features:
