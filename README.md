@@ -1,4 +1,4 @@
-[![key.png](https://s29.postimg.org/u0zdi2e0n/key.png)](https://postimg.org/image/ymvhqezjn/)
+<img src="https://s30.postimg.org/le54yzn81/key.png" width="500px">
 
 ### Project Description:
 The project explores operating systems vulnerabilities in protecting against common threats of
@@ -9,6 +9,8 @@ __Keyplexer__ is a Remote Access Trojan (RAT) written in Python. It combines the
 functionalities of Keylogger with remote access abilities. Meaning, that not only the program
 records all movements of the user, but also has access to the machine live through the created
 backdoor or Trojan.
+
+<img src="https://s30.postimg.org/hkdfqd1lt/revshell.png" width="400px">
 
 ### Features:
  [x] Logging ALL keystrokes of the user daily and save them in log.txt file
