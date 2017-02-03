@@ -71,6 +71,8 @@ backdoor or Trojan.
 
  [ ] Bind the program to a file with an icon
 
+ [ ] Add colors to the server menu --linux
+
 
 # TO-DO
  [ ] Encrypt traffic accross the network using AES encryption
@@ -84,5 +86,6 @@ backdoor or Trojan.
 
 ## Nextstep
 
-- Finish the menu of the server
+- Finish the menu of the server (keylogs=DONE, Openwins = DONE, Capture=DONE, Sendlogs=DONE, IP=DONE)
 - Fix screenshots the resolution of the outputs
+
