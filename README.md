@@ -82,38 +82,7 @@ backdoor or Trojan.
  [ ] Multiple Clients
 
 
+## Nextstep
 
-## Timeline:
-The project is divided on 3 level based on the difficulty:
-
-### Level 1 
-* Captures logs from active Windows machine
-* Captures logs from browsers -- Chrome, Firefox, Internet Explorer including (Incognito mode) 
-* Captures all open windows and their paths
-* Store the logs locally 
-* Display the logs in clear and organized way (sanitized keystrokes i.e Ctrl, Alt, Enter)
-
-### Level 2 
-* 	Send logs via email
-* 	Use Task Scheduler to run on startup. (related to Persistence)
-* 	Hide the logs file, so the target user cannot recognize it.
-* 	Rename files into unsuspicious names 
-* 	Add date and time to make a new log file each day.
-* 	Capture the clipboard contents
-* 	Screenshot the host machine
-* 	Get the history, cookies, and saved passwords from of the browsers (Chrome, Firefox)
-* 	Using threading with timers to repeat the tasks daily
-
-### Level 3 due 
-*  Hide the program from the startup menu in the Task Manager
-*  Send logs via FTP
-*  Add Reverse Shell (RAT) 
-*  Detect important websites and log and screen shot them separately i.e. social media accounts, banks, etc. 
-*  Microphone Logging
-*  Webcam logging
-*  Disable anti-virus or anti Keylogger
-*  Bypass Antivirus detection
-*  Send files by email at specific time of the day and delete traces
-*  Add mouse logging 
-*  Finger print the operating system
-*  IP detection
+- Finish the menu of the server
+- Fix screenshots the resolution of the outputs
