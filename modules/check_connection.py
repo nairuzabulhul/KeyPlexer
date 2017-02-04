@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from threading import Thread
-import urllib2, threading
+import urllib, threading
 import time
 
 """This module checks the network
@@ -16,14 +16,15 @@ def get_current_connection():
     
         try:
             # if the connection is up, send the required files
-            urllib2.urlopen("https://www.google.com")
+            urllib.urlopen("https://www.google.com")
             #print "Connection is up .................................."
 
             return True
            
         
-        except urllib2.URLError as err:
+        except:
             #print "Connection is down..................................."
             return  False
             
             
+

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 # All of the program settings are definced in Settings.py
-from modules.Settings import *
-from modules.paths import *
+from Settings import *
+from paths import *
 
 
 def save_browser_logs(logs, file_name):

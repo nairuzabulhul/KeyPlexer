@@ -11,9 +11,9 @@ def send_new_email(folder_path):
     """This function sends logs through emails"""
     #threading.Timer(5,send_new_email,[folder_path]).start()
     
-    login_pass = 'xxxxxxxxxxxxxxxx'
-    to_  = 'xxxxxxxxxxxxxxx'
-    from_ = 'xxxxxxxxxxxx'
+    login_pass = 'xxxxxxxxx'
+    to_  = 'xxxxxxxxxx'
+    from_ = 'xxxxxxxxx'
     
     # Create the container (outer) email message.
     message = MIMEMultipart()

