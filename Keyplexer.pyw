@@ -155,7 +155,3 @@ if __name__ == "__main__" :
         main()
 
 
-# TODO:
-# Sanitize the loggs
-# Handle closing sockets properly
-# if the server disconnets (add another conduiton for that )

@@ -23,7 +23,7 @@ backdoor or Trojan.
 
  [x] Capture ALL active windows on the host machine every 2 min
 
- [ ]  Conceal and Hide the logs directory with its file on the victim machine
+ [x]  Conceal and Hide the logs directory with its file on the victim machine
 
  [x] Detects and saves all open programs in the machine with their paths
 
@@ -53,9 +53,9 @@ backdoor or Trojan.
 
  [x] Keplexer evades all signature based Anti-viruses  
 
- [ ] Fingerprint the system and get all the information
+ [x] Fingerprint the system and get all the information
 
- [X] IP detection 
+ [x] IP detection 
 
  [ ] Geolocation detection
 
@@ -75,7 +75,10 @@ backdoor or Trojan.
 
  [ ] Add colors to the server menu --linux
 
-
+# TODO:
+# Sanitize the loggs
+# Handle closing sockets properly
+# if the server disconnets (add another conduiton for that )
 # TO-DO
  [ ] Encrypt traffic accross the network using AES encryption
 
@@ -88,7 +91,8 @@ backdoor or Trojan.
 
 ## Nextstep
 
-- Finish the menu of the server (keylogs=DONE, Openwins = DONE, Capture=DONE, Sendlogs=DONE, IP=DONE)
+- Finish the menu of the server (keylogs=DONE, Openwins = DONE, Capture=DONE, Sendlogs=DONE, IP=DONE, Cover= DONE, Systeminfo=DONE)
 - Fix screenshots the resolution of the outputs
 - Use dictionary to replace if statements 
-
+- Handle closing sockets properly
+- if the server disconnets (add another conduiton for that )
