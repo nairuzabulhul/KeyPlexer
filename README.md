@@ -90,4 +90,5 @@ backdoor or Trojan.
 
 - Finish the menu of the server (keylogs=DONE, Openwins = DONE, Capture=DONE, Sendlogs=DONE, IP=DONE)
 - Fix screenshots the resolution of the outputs
+- Use dictionary to replace if statements 
 
