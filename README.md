@@ -74,12 +74,7 @@ backdoor or Trojan.
  [ ] Bind the program to a file with an icon
 
  [ ] Add colors to the server menu --linux
-
-# TODO:
-# Sanitize the loggs
-# Handle closing sockets properly
-# if the server disconnets (add another conduiton for that )
-# TO-DO
+ 
  [ ] Encrypt traffic accross the network using AES encryption
 
  [ ] Detect virtual environment 
