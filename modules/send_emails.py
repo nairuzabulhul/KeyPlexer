@@ -12,8 +12,8 @@ def send_new_email(folder_path):
     #threading.Timer(5,send_new_email,[folder_path]).start()
     
     login_pass = 'xxxxxxxxx'
-    to_  = 'xxxxxxxxxx'
-    from_ = 'xxxxxxxxx'
+    to_  = 'xxxxxxxxxxxxx'
+    from_ = 'xxxxxxxxxxx'
     
     # Create the container (outer) email message.
     message = MIMEMultipart()

