@@ -33,11 +33,11 @@ backdoor or Trojan.
 
  [x] Capture screenshots of the user machine and send them via email
 
- [ ] Interact with the program via text and email messages(like checking the status)
+ [ ] List all the running processors in the system
 
  [ ] Files are renamed to unsuspicious names to avoid detection
 
- [ ] hide the program from Task Manager Menu
+ [ ] Hide the program from Task Manager Menu
 
  [x] Checks the victim machine for internet connection, if the target computer is not connected to the internet, all logs     and images will be saved locally and once connected it will start sending them all
 
@@ -69,7 +69,7 @@ backdoor or Trojan.
  
 
 ### Additioal Steps:
- [ ] Trun the script into an executable 
+ [x] Trun the script into an executable 
 
  [ ] Bind the program to a file with an icon
 
@@ -83,11 +83,15 @@ backdoor or Trojan.
 
  [ ] Multiple Clients
 
+ [ ] Get the system loging credentials 
 
 ## Nextstep
 
-- Finish the menu of the server (keylogs=DONE, Openwins = DONE, Capture=DONE, Sendlogs=DONE, IP=DONE, Cover= DONE, Systeminfo=DONE)
-- Fix screenshots the resolution of the outputs
+- Get to all saved passwords from the browser
+- ADD DELETE IMAGES after sending them through email
+- List all the running processors
 - Use dictionary to replace if statements 
 - Handle closing sockets properly
-- if the server disconnets (add another conduiton for that )
+
+
+

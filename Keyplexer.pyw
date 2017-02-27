@@ -154,7 +154,3 @@ if __name__ == "__main__" :
 
 
 
-# TODO USE keylog first then screen shot
-# Fixed the resolution problem of the pictures
-# ADD DELETE IMAGES
-# List all the running processors
