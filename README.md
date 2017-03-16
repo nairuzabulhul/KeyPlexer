@@ -35,6 +35,8 @@ backdoor or Trojan.
 
  [ ] List all the running processors in the system
 
+ [ ] Interact with the processor (run it , or kill it)
+
  [ ] Files are renamed to unsuspicious names to avoid detection
 
  [ ] Hide the program from Task Manager Menu

