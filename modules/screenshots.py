@@ -40,7 +40,7 @@ def capture_screenshots(file_path):
             
             if conn == True :  
                 #print "there is 3 pics in the folder"
-                send_new_email(file_path)
+                #send_new_email(file_path)
                 #delete_images(file_path)
                 counter = 0
                 
@@ -49,5 +49,4 @@ def capture_screenshots(file_path):
                 
             
         
-
 

