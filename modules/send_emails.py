@@ -11,7 +11,7 @@ def send_new_email(folder_path):
     """This function sends logs through emails"""
     #threading.Timer(5,send_new_email,[folder_path]).start()
     
-    login_pass = 'xxxxxxxxxxxx'
+    login_pass = 'xxxxxxxxxxxxxxxx'
     to_  = 'xxxxxxxxxxxxxxxx'
     from_ = 'xxxxxxxxxxxxxx'
     

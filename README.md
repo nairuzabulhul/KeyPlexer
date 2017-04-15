@@ -1,4 +1,4 @@
-<img src="https://s30.postimg.org/le54yzn81/key.png" width="500px">
+<img src="https://s24.postimg.org/h37565a11/key.png" width="700px">
 
 ### Project Description:
 The project explores operating systems vulnerabilities in protecting against common threats of
@@ -13,6 +13,7 @@ backdoor or Trojan.
 <img src="https://s30.postimg.org/hkdfqd1lt/revshell.png" width="400px">
 
 ### Features:
+
  [x] Logging ALL keystrokes of the user daily and save them in log.txt file
 
  [ ] Keystrokes are sanitized for accurate output (Ctrl, Alt, Enter)
@@ -33,13 +34,11 @@ backdoor or Trojan.
 
  [x] Capture screenshots of the user machine and send them via email
 
- [ ] List all the running processors in the system
+ [X] List all the running processors in the system
 
  [ ] Interact with the processor (run it , or kill it)
 
- [ ] Files are renamed to unsuspicious names to avoid detection
-
- [ ] Hide the program from Task Manager Menu
+ [X] Files are renamed to unsuspicious names to avoid detection
 
  [x] Checks the victim machine for internet connection, if the target computer is not connected to the internet, all logs     and images will be saved locally and once connected it will start sending them all
 
@@ -51,7 +50,7 @@ backdoor or Trojan.
 
  [x] Get all the history of browsers (Chrome, Firefox)
 
- [ ] Get all bookmarks of browsers, cookies, autofill, and saved password
+ [ ] Get al histrory, cookies, autofill, and saved password  * [Histroy is DONE]
 
  [x] Keplexer evades all signature based Anti-viruses  
 
@@ -59,41 +58,58 @@ backdoor or Trojan.
 
  [x] IP detection 
 
- [ ] Geolocation detection
+ [x] Revsershell is added as backdoor trojan 
 
- [ ] Webcam logging
+ [X] Interactive shell -- move flexiblly around the user directories using cd command
 
- [ ] Microphone logging
-
- [x] Revsershell is added as backdoor trojan
-
- [ ] Download/ upload file using the backdoor shell functionality
+ [X] Download/ upload file using the backdoor shell functionality * [Download is DONE]
  
+ [X] DELETE images and logs after sending them through email using [cover] command
 
-### Additioal Steps:
+ [X] Multiple Clients
+
  [x] Trun the script into an executable 
 
- [ ] Bind the program to a file with an icon
+ [X] Add colors to the server menu --linux
 
- [ ] Add colors to the server menu --linux
+
+
+### Additioal Steps:
+
+ [ ] Bind the program to a file with an icon
  
  [ ] Encrypt traffic accross the network using AES encryption
 
  [ ] Detect virtual environment 
 
- [ ] Previlige Escalation
+ [ ] Webcam logging
 
- [ ] Multiple Clients
+ [ ] Microphone logging
 
  [ ] Get the system loging credentials 
 
+
+
 ## Nextstep
 
-- Get to all saved passwords from the browser
-- ADD DELETE IMAGES after sending them through email
-- List all the running processors
-- Use dictionary to replace if statements 
-- Handle closing sockets properly
+ [ ] Send email or text when the user shuts down the computer, logs off or disconnects from the internet
+
+ [ ] Added Persistence to the machine, to avoid disconnection on the restart
+	
+	[ ] Copy the file to another location and delete the current one
+
+	[ ] Edit the registry
+
+ [ ] TESTING --> additional testing is required 
+
+ [ ] Keystrokes are sanitized for accurate output (Ctrl, Alt, Enter)
+
+ [ ] Detects when the user is accessing special important websites such as social media, banks, etc
+
+ [ ] Interact with the processor (run it , or kill it)
+
+
+
 
 
 

