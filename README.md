@@ -94,11 +94,11 @@ backdoor or Trojan.
 
  [ ] Send email or text when the user shuts down the computer, logs off or disconnects from the internet
 
- [ ] Added Persistence to the machine, to avoid disconnection on the restart
+ [X] Added Persistence to the machine, to avoid disconnection on the restart
 	
-	[ ] Copy the file to another location and delete the current one
+	[X] Copy the file to another location and delete the current one
 
-	[ ] Edit the registry
+	[X] Edit the registry
 
  [ ] TESTING --> additional testing is required 
 
@@ -108,6 +108,13 @@ backdoor or Trojan.
 
  [ ] Interact with the processor (run it , or kill it)
 
+
+
+##### Cleaning
+
+[1] Persistence --> clean up the function
+
+[2] Copy and hide the files in the system 
 
 
 
